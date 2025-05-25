@@ -1,4 +1,4 @@
-# DSS & ACL FSW via cFS
+# COSMIC FSW
 - Author: Kweon HyeokJin
 
 # Notes
