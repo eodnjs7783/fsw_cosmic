@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "cfe.h": "c",
+        "osapi.h": "c",
+        "osapi-binsem.h": "c",
+        "osapi-bsp.h": "c",
+        "uant_app.h": "c",
+        "uant_msg.h": "c",
+        "uant_tlm.h": "c"
+    }
+}

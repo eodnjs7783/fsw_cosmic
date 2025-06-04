@@ -28,10 +28,10 @@
 /*
 **   Include Files:
 */
-#include <cfe.h>
+#include <cfe.h> //빌드하면 osconfig.h 생겨서 괜찮음음
 #include <COSMIC/cosmic.h>
 #include <uant/uant.h>
-#include <uantapp/uant_app.h>
+#include <uantapp/uant_app.h> //COSMIC/cosmic.h가 없어서 빨간줄
 #include <string.h>
 
 /*
