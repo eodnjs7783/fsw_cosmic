@@ -47,7 +47,7 @@ typedef struct {
     uint32 RunStatus;
     CFE_SB_PipeId_t CommandPipe;
 
-    HYVRID_AppCount_t AppCnt;
+    COSMIC_AppCount_t AppCnt;
     UANT_Tlm_t ExecReportMsg;
 
     uint32 EOTaskID;

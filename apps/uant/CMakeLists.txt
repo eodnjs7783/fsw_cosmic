@@ -8,7 +8,7 @@ include_directories(${CFEPSP_SOURCE_DIR}/fsw/inc)
 
 include_directories(${cfs_lib_MISSION_DIR}/fsw/inc)
 include_directories(${ifc_lib_MISSION_DIR}/fsw/inc)
-include_directories(${hyvrid_lib_MISSION_DIR}/fsw/inc)
+include_directories(${cosmic_lib_MISSION_DIR}/fsw/inc)
 include_directories(device/inc)
 include_directories(fsw/inc)
 

@@ -2,7 +2,7 @@
 #include <IFC/ifc_io_generic.h>
 #include <IFC/ifc_i2c.h>
 
-#include <HYVRID/hyvrid.h>
+#include <COSMIC/cosmic.h>
 
 
 #define ISIS_UANT_I2C_ADDRESS   0x31

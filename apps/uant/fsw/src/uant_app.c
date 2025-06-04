@@ -29,7 +29,7 @@
 **   Include Files:
 */
 #include <cfe.h>
-#include <HYVRID/hyvrid.h>
+#include <COSMIC/cosmic.h>
 #include <uant/uant.h>
 #include <uantapp/uant_app.h>
 #include <string.h>
@@ -63,7 +63,7 @@ void UANT_AppMain( void )
     /*
     ** UANT Runloop
     */
-   HYVRID_SetRunStatusOn(HYVRID_RUNSTATUS_UANT);
+   COSMIC_SetRunStatusOn(COSMIC_RUNSTATUS_UANT);
     while (CFE_ES_RunLoop(&UANT_AppData.RunStatus) == true)
     {
         CFE_ES_PerfLogExit(UANT_PERF_ID);
@@ -84,7 +84,7 @@ void UANT_AppMain( void )
     }
 
     CFE_ES_PerfLogExit(UANT_PERF_ID);
-    HYVRID_SetRunStatusOff(HYVRID_RUNSTATUS_UANT);
+    COSMIC_SetRunStatusOff(COSMIC_RUNSTATUS_UANT);
     CFE_ES_ExitApp(UANT_AppData.RunStatus);
 
     return;
@@ -125,7 +125,7 @@ int32 UANT_AppInit(void) {
     **  messages
     */
     status = CFE_SB_CreatePipe(&UANT_AppData.CommandPipe,
-                               HYVRID_PIPE_DEPTH,
+                               COSMIC_PIPE_DEPTH,
                                "UANT_CMD_PIPE");
     if (status != CFE_SUCCESS) {
         CFE_EVS_SendEvent(UANT_PIPE_ERR_EID, CFE_EVS_EventType_ERROR,
@@ -445,11 +445,11 @@ void UANT_ProcessRequestedTelemetry(CFE_SB_Msg_t* MsgPtr){
 // TODO: implement default housekeeping or delete this.
 void UANT_ReportHousekeeping(void)
 {
-#ifdef HYVRID_LOG_ON
+#ifdef COSMIC_LOG_ON
     CFE_ES_WriteToSysLog("UANT App: Housekeeping Collection");
 #endif
-#ifdef HYVRID_PLATFORM_CPU1
-    memset(&UANT_AppData.ExecReportMsg.Data.hk, HYVRID_RUNSTATUS_UANT, sizeof(UANT_HK_t));
+#ifdef COSMIC_PLATFORM_CPU1
+    memset(&UANT_AppData.ExecReportMsg.Data.hk, COSMIC_RUNSTATUS_UANT, sizeof(UANT_HK_t));
     return;
 #endif
     int32 status;
@@ -463,11 +463,11 @@ void UANT_ReportHousekeeping(void)
 
 void UANT_ReportBeacon(void)
 {
-#ifdef HYVRID_LOG_ON
+#ifdef COSMIC_LOG_ON
     CFE_ES_WriteToSysLog("UANT App: Beacon Collection");
 #endif
-#ifdef HYVRID_PLATFORM_CPU1
-    memset(&UANT_AppData.ExecReportMsg.Data.bcn, HYVRID_RUNSTATUS_UANT, sizeof(UANT_BCN_t));
+#ifdef COSMIC_PLATFORM_CPU1
+    memset(&UANT_AppData.ExecReportMsg.Data.bcn, COSMIC_RUNSTATUS_UANT, sizeof(UANT_BCN_t));
     return;
 #endif
     int32 status;

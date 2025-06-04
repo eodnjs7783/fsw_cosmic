@@ -1,5 +1,5 @@
 #include <uant/uant.h>
-#include <HYVRID/hyvrid.h>
+#include <COSMIC/cosmic.h>
 
 #include <string.h>
 #include <stdint.h>
