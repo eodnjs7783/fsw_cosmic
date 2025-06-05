@@ -8,6 +8,7 @@
         "uant_msg.h": "c",
         "uant_tlm.h": "c",
         "uant.h": "c",
-        "cosmic.h": "c"
+        "cosmic.h": "c",
+        "string.h": "c"
     }
 }
