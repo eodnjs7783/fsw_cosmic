@@ -9,6 +9,14 @@
         "uant_tlm.h": "c",
         "uant.h": "c",
         "cosmic.h": "c",
-        "string.h": "c"
-    }
+        "string.h": "c",
+        "cfe_srl_module_all.h": "c",
+        "cfe_srl_handle.h": "c",
+        "cfe_srl_io_stub.h": "c",
+        "socket.h": "c",
+        "cfe_srl_basic.h": "c",
+        "i2c-dev.h": "c",
+        "cstdint": "c"
+    },
+    "cmake.sourceDirectory": "/home/eodnjs7783/FSW_COSMIC/apps/uant"
 }

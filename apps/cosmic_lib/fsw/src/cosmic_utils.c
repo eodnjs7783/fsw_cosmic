@@ -2,11 +2,14 @@
 #include <COSMIC/cosmic.h>
 
 
-bool VerifyCmdLength(CFE_SB_MsgPtr_t msg, uint16 ExpectedLength)
-{     
-    return ExpectedLength == CFE_SB_GetTotalMsgLength(msg) ?
-        true :
-        false;
+bool VerifyCmdLength(const CFE_MSG_Message_t *MsgPtr, CFE_MSG_Size_t ExpectedLength)
+{   
+
+    CFE_MSG_Size_t ActualSize;
+     if (CFE_MSG_GetSize(MsgPtr, &ActualSize) != CFE_SUCCESS) {
+        return false;
+    }
+    return (ActualSize == ExpectedLength);
 }
 
 
