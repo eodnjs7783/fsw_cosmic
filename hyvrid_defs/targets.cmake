@@ -35,8 +35,8 @@
 # The MISSION_NAME will be compiled into the target build data structure
 # as well as being passed to "git describe" to filter the tags when building
 # the version string.
-SET(MISSION_NAME "HYVRID")
-SET(MISSIONCONFIG "hyvrid")
+SET(MISSION_NAME "COSMIC")
+SET(MISSIONCONFIG "cosmic")
 
 # SPACECRAFT_ID gets compiled into the build data structure and the PSP may use it.
 # should be an integer.
@@ -53,19 +53,19 @@ SET(FT_INSTALL_SUBDIR "host/functional-test")
 # Each target board can have its own HW arch selection and set of included apps
 SET(TGT1_NAME cpu1)
 SET(TGT1_SYSTEM cpu1)
-SET(TGT1_APPLIST cfs_lib hyvrid_lib ifc_lib adcs_lib ifcapp fm eps uant grx stx pays payr adcs payc utrx log hk ds sch ci to sn)
+SET(TGT1_APPLIST cfs_lib cosmic_lib ifc_lib adcs_lib ifcapp fm eps uant grx stx pays payr adcs payc utrx log hk ds sch ci to sn)
 SET(TGT1_FILELIST cfe_es_startup.scr)
 
 SET(TGT2_NAME obc)
 SET(TGT2_SYSTEM obc) # important !!!!!
-SET(TGT2_APPLIST cfs_lib hyvrid_lib ifc_lib adcs_lib ifcapp fm eps uant grx stx pays payr adcs payc utrx log hk ds sch ci to sn)
+SET(TGT2_APPLIST cfs_lib cosmic_lib ifc_lib adcs_lib ifcapp fm eps uant grx stx pays payr adcs payc utrx log hk ds sch ci to sn)
 SET(TGT2_FILELIST cfe_es_startup.scr)
 
 ########## ########## ########## ########## ##########
-add_definitions(-DHYVRID_COMS_TEST)
-# add_definitions(-DHYVRID_COMS_RF)
+add_definitions(-DCOSMIC_COMS_TEST)
+# add_definitions(-DCOSMIC_COMS_RF)
 
-# add_definitions(-DHYVRID_LOG_ON)
+# add_definitions(-DCOSMIC_LOG_ON)
 ########## ########## ########## ########## ##########
 
 SET(CPU1_LIB_SOURCE "../submodules/exe/cpu1/libcsp-client.so" "../submodules/exe/cpu1/libsocketcan.so")

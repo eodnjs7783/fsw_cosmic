@@ -6,6 +6,8 @@
         "osapi-bsp.h": "c",
         "uant_app.h": "c",
         "uant_msg.h": "c",
-        "uant_tlm.h": "c"
+        "uant_tlm.h": "c",
+        "uant.h": "c",
+        "cosmic.h": "c"
     }
 }

@@ -31,5 +31,5 @@ SET(OSAL_SYSTEM_OSTYPE      "posix")
 # This adds the "-m32" flag to all compile commands
 SET(CMAKE_C_FLAGS_INIT CACHE STRING "C Flags required by platform")
 
-add_definitions(-DHYVRID_PLATFORM_CPU1)
+add_definitions(-DCOSMIC_PLATFORM_CPU1)
 

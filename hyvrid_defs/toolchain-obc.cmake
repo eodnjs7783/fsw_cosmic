@@ -28,5 +28,5 @@ SET(CFE_SYSTEM_PSPNAME      "pc-linux")
 SET(OSAL_SYSTEM_BSPNAME     "generic-linux")
 SET(OSAL_SYSTEM_OSTYPE      "posix")
 
-add_definitions(-DHYVRID_PLATFORM_OBC)
+add_definitions(-DCOSMIC_PLATFORM_OBC)
 
