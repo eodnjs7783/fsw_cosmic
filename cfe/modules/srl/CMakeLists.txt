@@ -8,7 +8,7 @@
 project (CFE_SRL C)
 
 # Unit Test stub flags
-set(ENABLE_UT TRUE)
+set(ENABLE_UT FALSE)
 
 # Serial Comm. source files
 if (ENABLE_UT)
@@ -19,6 +19,8 @@ if (ENABLE_UT)
         fsw/src/cfe_srl_handle.c
         fsw/src/cfe_srl_priv.c
         fsw/src/cfe_srl_csp.c
+        fsw/src/cfe_srl_api.c
+        fsw/src/cfe_srl_init.c
     )
 else()
     set(srl_SOURCES
@@ -28,6 +30,8 @@ else()
     fsw/src/cfe_srl_handle.c
     fsw/src/cfe_srl_priv.c
     fsw/src/cfe_srl_csp.c
+    fsw/src/cfe_srl_api.c
+    fsw/src/cfe_srl_init.c
     )   
 endif()
 
