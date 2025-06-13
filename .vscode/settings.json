@@ -1,22 +1,20 @@
 {
     "files.associations": {
-        "cfe.h": "c",
-        "osapi.h": "c",
-        "osapi-binsem.h": "c",
-        "osapi-bsp.h": "c",
-        "uant_app.h": "c",
-        "uant_msg.h": "c",
-        "uant_tlm.h": "c",
-        "uant.h": "c",
-        "cosmic.h": "c",
-        "string.h": "c",
+
         "cfe_srl_module_all.h": "c",
+        "can_socketcan.h": "c",
+        "gssb_i4.h": "c",
+        "gssb_ant6.h": "c",
+        "csp_if_i2c.h": "c",
+        "gssb_ar6.h": "c",
+        "cfe_srl_csp.h": "c",
+        "csp.h": "c",
         "cfe_srl_handle.h": "c",
         "cfe_srl_io_stub.h": "c",
-        "socket.h": "c",
         "cfe_srl_basic.h": "c",
-        "i2c-dev.h": "c",
-        "cstdint": "c"
+        "csp_interface.h": "c",
+        "conn.h": "c",
+        "csp_autoconfig.h": "c"
     },
-    "cmake.sourceDirectory": "/home/eodnjs7783/FSW_COSMIC/apps/uant"
+    "cmake.sourceDirectory": "/home/hj/Documents/FSW/tools/elf2cfetbl"
 }
