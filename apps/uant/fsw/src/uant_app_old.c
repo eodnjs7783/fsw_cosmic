@@ -53,7 +53,7 @@ CFE_ES_MAIN(UANT_AppMain); //app register, produce task ...
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
 void UANT_AppMain( void )
 {
-    int32  status;
+    CFE_Status_t  status;
     CFE_SB_Msg_t * MsgPtr;
 
     CFE_ES_PerfLogEntry(UANT_PERF_ID);
@@ -62,12 +62,12 @@ void UANT_AppMain( void )
     if (status != CFE_SUCCESS) {
         UANT_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
     }
-
+    /*
     status = isis_uant_i2c_init();
     if (status != CFE_SUCCESS) {
         UANT_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
     }
-
+    */
     /*
     ** UANT Runloop
     */
@@ -81,7 +81,7 @@ void UANT_AppMain( void )
         CFE_ES_PerfLogEntry(UANT_PERF_ID);
 
         if (status == CFE_SUCCESS && &BufPtr != NULL) {
-            UANT_ProcessCommandPacket((Bufptr);
+            UANT_ProcessCommandPacket(Bufptr);
 
             CFE_SB_ReleaseMessageBuffer(BufPtr);
         }
