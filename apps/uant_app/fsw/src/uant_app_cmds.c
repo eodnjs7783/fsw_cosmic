@@ -32,7 +32,7 @@
 #include "uant_app_tbl.h"
 #include "uant_app_utils.h"
 #include "uant_app_msg.h"
-// Most of the cmds are in the device directory 
+// !!!! Most of the cmds are in the device directory 
 /* The uant_lib module provides the UANT_Function() prototype */
 //#include "uant_lib.h"
 

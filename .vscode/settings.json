@@ -1,6 +1,5 @@
 {
     "files.associations": {
-
         "cfe_srl_module_all.h": "c",
         "can_socketcan.h": "c",
         "gssb_i4.h": "c",
@@ -14,7 +13,8 @@
         "cfe_srl_basic.h": "c",
         "csp_interface.h": "c",
         "conn.h": "c",
-        "csp_autoconfig.h": "c"
+        "csp_autoconfig.h": "c",
+        "cfe_srl.h": "c"
     },
     "cmake.sourceDirectory": "/home/hj/Documents/FSW/tools/elf2cfetbl"
 }

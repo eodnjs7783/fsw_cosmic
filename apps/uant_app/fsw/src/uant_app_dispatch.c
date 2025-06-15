@@ -75,45 +75,52 @@ bool UANT_APP_VerifyCmdLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLe
 void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
 {
     CFE_MSG_FcnCode_t CommandCode = 0;
-
     CFE_MSG_GetFcnCode(&SBBufPtr->Msg, &CommandCode);
 
-    /*
-    ** Process UANT app ground commands
-    */
     switch (CommandCode)
     {
-        case UANT_APP_NOOP_CC:
+        /* ───────── NOOP ───────── */
+        case UANT_NOOP_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_NoopCmd_t)))
             {
                 UANT_APP_NoopCmd((const UANT_APP_NoopCmd_t *)SBBufPtr);
             }
             break;
 
-        case UANT_APP_RESET_COUNTERS_CC:
+        /* ───────── 카운터 리셋 ───────── */
+        case UANT_RESET_COUNTERS_CC:
+        case UANT_RESET_APP_CMD_COUNTERS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ResetCountersCmd_t)))
             {
                 UANT_APP_ResetCountersCmd((const UANT_APP_ResetCountersCmd_t *)SBBufPtr);
             }
             break;
-        /* ───────── 리셋 / ARM / DISARM ───────── */
-        case UANT_APP_RESET_CC:
+
+        /* ───────── 장치 리셋 ───────── */
+        case UANT_RESET_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
                 ISIS_UANT_Reset();
+            }
             break;
 
-        case UANT_APP_ARM_CC:
+        /* ───────── ARM / DISARM ───────── */
+        case UANT_ARM_ANTENNA_SYSTEMS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
                 ISIS_UANT_ArmAntennaSystems();
+            }
             break;
 
-        case UANT_APP_DISARM_CC:
+        case UANT_DISARM_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
                 ISIS_UANT_Disarm();
+            }
             break;
 
         /* ───────── 자동 전개 ───────── */
-        case UANT_APP_AUTODEPLOY_CC:
+        case UANT_AUTOMATED_DEPLOYMENT_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_AutoDeployCmd_t)))
             {
                 const UANT_APP_AutoDeployCmd_t *cmd = (const UANT_APP_AutoDeployCmd_t *)SBBufPtr;
@@ -122,25 +129,25 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 단일 안테나 전개 ───────── */
-        case UANT_APP_DEPLOY_ANT_CC:
+        case UANT_DEPLOY_ANT1_CC:
+        case UANT_DEPLOY_ANT2_CC:
+        case UANT_DEPLOY_ANT3_CC:
+        case UANT_DEPLOY_ANT4_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
-                switch (cmd->AntNum)
+                switch (CommandCode)
                 {
-                    case 1: ISIS_UANT_DeployAntenna1(cmd->BurnTime); break;
-                    case 2: ISIS_UANT_DeployAntenna2(cmd->BurnTime); break;
-                    case 3: ISIS_UANT_DeployAntenna3(cmd->BurnTime); break;
-                    case 4: ISIS_UANT_DeployAntenna4(cmd->BurnTime); break;
-                    default:
-                        CFE_EVS_SendEvent(UANT_APP_CC_ERR_EID, CFE_EVS_EventType_ERROR,
-                                        "Deploy ANT: invalid antenna num %d", cmd->AntNum);
-                        break;
+                    case UANT_DEPLOY_ANT1_CC: ISIS_UANT_DeployAntenna1(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT2_CC: ISIS_UANT_DeployAntenna2(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT3_CC: ISIS_UANT_DeployAntenna3(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT4_CC: ISIS_UANT_DeployAntenna4(cmd->BurnTime); break;
                 }
             }
             break;
-        /* Override 전개 */
-        case UANT_APP_DEPLOY_ANT1_OVERRIDE_CC:
+
+        /* ───────── Override 전개 ───────── */
+        case UANT_DEPLOY_ANT1_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
@@ -148,7 +155,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             }
             break;
 
-        case UANT_APP_DEPLOY_ANT2_OVERRIDE_CC:
+        case UANT_DEPLOY_ANT2_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
@@ -156,7 +163,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             }
             break;
 
-        case UANT_APP_DEPLOY_ANT3_OVERRIDE_CC:
+        case UANT_DEPLOY_ANT3_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
@@ -164,7 +171,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             }
             break;
 
-        case UANT_APP_DEPLOY_ANT4_OVERRIDE_CC:
+        case UANT_DEPLOY_ANT4_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
@@ -173,85 +180,63 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 전개 취소 ───────── */
-        case UANT_APP_CANCEL_DEPLOY_ACT_CC:
+        case UANT_CANCEL_DEPLOYMENT_ACTIVATION_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
                 ISIS_UANT_CancelDeploymentSystemActivation();
+            }
             break;
 
-        /* ───────── 상태/센서 조회 ───────── */
-        case UANT_APP_GET_STATUS_CC:
+        /* ───────── 상태 조회 ───────── */
+        case UANT_GET_DEPLOYMENT_STATUS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
                 uint16 status;
                 ISIS_UANT_ReportDeploymentStatus(&status);
                 CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                "ANT-6F deploy status = 0x%04X", status);
+                                  "ANT-6F deploy status = 0x%04X", status);
             }
             break;
 
-        case UANT_APP_GET_TEMP_CC:
+        /* ───────── 온도 조회 ───────── */
+        case UANT_MEASURE_SYSTEM_TEMPERATURE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
                 uint16 raw;
                 ISIS_UANT_MeasureAntennaSystemTemperature(&raw);
-                /* 센서 스케일 변환(예: °C) 후 HK 버퍼에 저장하거나 바로 이벤트로 출력 */
                 CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                "ANT-6F temp raw = %u", raw);
+                                  "ANT-6F temp raw = %u", raw);
             }
             break;
 
-        /* 카운트 보고 */
-        case UANT_APP_REPORT_ANT1_ACTIVATION_CNT_CC:
-        case UANT_APP_REPORT_ANT2_ACTIVATION_CNT_CC:
-        case UANT_APP_REPORT_ANT3_ACTIVATION_CNT_CC:
-        case UANT_APP_REPORT_ANT4_ACTIVATION_CNT_CC:
-        {
+        /* ───────── 활성화 횟수 보고 ───────── */
+        case UANT_REPORT_ANT_ACTIVATION_CNT_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
                 uint8 count;
-                uint8 ant = CommandCode - UANT_APP_REPORT_ANT1_ACTIVATION_CNT_CC + 1;
+                /* Payload에 ant 번호가 담겨있다고 가정 */
+                uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
                 ISIS_UANT_ReportAntennaActivationCount(ant, &count);
                 CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                 "ANT-%d activation count = %u", ant, count);
+                                  "ANT-%d activation count = %u", ant, count);
             }
-        }
             break;
 
-        /* 활성화 시간 보고 */
-        case UANT_APP_REPORT_ANT1_ACTIVATION_TIME_CC:
-        case UANT_APP_REPORT_ANT2_ACTIVATION_TIME_CC:
-        case UANT_APP_REPORT_ANT3_ACTIVATION_TIME_CC:
-        case UANT_APP_REPORT_ANT4_ACTIVATION_TIME_CC:
-        {
+        /* ───────── 활성화 시간 보고 ───────── */
+        case UANT_REPORT_ANT_ACTIVATION_TIME_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
                 uint16 time;
-                uint8 ant = CommandCode - UANT_APP_REPORT_ANT1_ACTIVATION_TIME_CC + 1;
+                uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
                 ISIS_UANT_ReportAntennaActivationTime(ant, &time);
                 CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                 "ANT-%d activation time = %u", ant, time);
-            }
-        }
-            break;
-        /*
-        case UANT_APP_PROCESS_CC:
-            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ProcessCmd_t)))
-            {
-                UANT_APP_ProcessCmd((const UANT_APP_ProcessCmd_t *)SBBufPtr);
+                                  "ANT-%d activation time = %u", ant, time);
             }
             break;
 
-        case UANT_APP_DISPLAY_PARAM_CC:
-            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DisplayParamCmd_t)))
-            {
-                UANT_APP_DisplayParamCmd((const UANT_APP_DisplayParamCmd_t *)SBBufPtr);
-            }
-            break;
-        */
-        /* default case already found during FC vs length test */
         default:
-            CFE_EVS_SendEvent(UANT_APP_CC_ERR_EID, CFE_EVS_EventType_ERROR, "Invalid ground command code: CC = %d",
-                              CommandCode);
+            CFE_EVS_SendEvent(UANT_APP_CC_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Invalid ground command code: CC = %d", CommandCode);
             break;
     }
 }
