@@ -6,9 +6,7 @@
 ##################################################################
 
 project (CFE_SRL C)
-
-# Unit Test stub flags
-set(ENABLE_UT FALSE)
+message(STATUS "srl cmake start")
 
 # Serial Comm. source files
 if (ENABLE_UT)
@@ -90,3 +88,5 @@ else ()
     # link csp
     target_link_libraries(srl PRIVATE ${PROJECT_SOURCE_DIR}/../../../submodules/libgscsp/build/cpu1/lib/libcsp-client.a)
 endif()
+
+message(STATUS "srl cmake end")
