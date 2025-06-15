@@ -23,6 +23,6 @@
 #ifndef UANT_APP_PERFIDS_H
 #define UANT_APP_PERFIDS_H
 
-#define UANT_APP_PERF_ID 91
+#define UANT_APP_PERF_ID 87
 
 #endif
