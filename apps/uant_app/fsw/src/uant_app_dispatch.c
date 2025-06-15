@@ -139,6 +139,38 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 }
             }
             break;
+        /* Override 전개 */
+        case UANT_APP_DEPLOY_ANT1_OVERRIDE_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
+            {
+                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
+                ISIS_UANT_DeployAntenna1WithOverride(cmd->BurnTime);
+            }
+            break;
+
+        case UANT_APP_DEPLOY_ANT2_OVERRIDE_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
+            {
+                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
+                ISIS_UANT_DeployAntenna2WithOverride(cmd->BurnTime);
+            }
+            break;
+
+        case UANT_APP_DEPLOY_ANT3_OVERRIDE_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
+            {
+                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
+                ISIS_UANT_DeployAntenna3WithOverride(cmd->BurnTime);
+            }
+            break;
+
+        case UANT_APP_DEPLOY_ANT4_OVERRIDE_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
+            {
+                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
+                ISIS_UANT_DeployAntenna4WithOverride(cmd->BurnTime);
+            }
+            break;
 
         /* ───────── 전개 취소 ───────── */
         case UANT_APP_CANCEL_DEPLOY_ACT_CC:
@@ -166,6 +198,40 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
                                 "ANT-6F temp raw = %u", raw);
             }
+            break;
+
+        /* 카운트 보고 */
+        case UANT_APP_REPORT_ANT1_ACTIVATION_CNT_CC:
+        case UANT_APP_REPORT_ANT2_ACTIVATION_CNT_CC:
+        case UANT_APP_REPORT_ANT3_ACTIVATION_CNT_CC:
+        case UANT_APP_REPORT_ANT4_ACTIVATION_CNT_CC:
+        {
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
+                uint8 count;
+                uint8 ant = CommandCode - UANT_APP_REPORT_ANT1_ACTIVATION_CNT_CC + 1;
+                ISIS_UANT_ReportAntennaActivationCount(ant, &count);
+                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                 "ANT-%d activation count = %u", ant, count);
+            }
+        }
+            break;
+
+        /* 활성화 시간 보고 */
+        case UANT_APP_REPORT_ANT1_ACTIVATION_TIME_CC:
+        case UANT_APP_REPORT_ANT2_ACTIVATION_TIME_CC:
+        case UANT_APP_REPORT_ANT3_ACTIVATION_TIME_CC:
+        case UANT_APP_REPORT_ANT4_ACTIVATION_TIME_CC:
+        {
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
+                uint16 time;
+                uint8 ant = CommandCode - UANT_APP_REPORT_ANT1_ACTIVATION_TIME_CC + 1;
+                ISIS_UANT_ReportAntennaActivationTime(ant, &time);
+                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                 "ANT-%d activation time = %u", ant, time);
+            }
+        }
             break;
         /*
         case UANT_APP_PROCESS_CC:
