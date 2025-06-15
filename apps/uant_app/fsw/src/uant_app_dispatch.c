@@ -24,6 +24,7 @@
 /*
 ** Include Files:
 */
+#include "uant.h" 
 #include "uant_app.h"
 #include "uant_app_dispatch.h"
 #include "uant_app_cmds.h"
@@ -95,7 +96,78 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 UANT_APP_ResetCountersCmd((const UANT_APP_ResetCountersCmd_t *)SBBufPtr);
             }
             break;
+        /* ───────── 리셋 / ARM / DISARM ───────── */
+        case UANT_APP_RESET_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+                ISIS_UANT_Reset();
+            break;
 
+        case UANT_APP_ARM_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+                ISIS_UANT_ArmAntennaSystems();
+            break;
+
+        case UANT_APP_DISARM_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+                ISIS_UANT_Disarm();
+            break;
+
+        /* ───────── 자동 전개 ───────── */
+        case UANT_APP_AUTODEPLOY_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_AutoDeployCmd_t)))
+            {
+                const UANT_APP_AutoDeployCmd_t *cmd = (const UANT_APP_AutoDeployCmd_t *)SBBufPtr;
+                ISIS_UANT_AutomatedSequentialDeployment(cmd->BurnTime);
+            }
+            break;
+
+        /* ───────── 단일 안테나 전개 ───────── */
+        case UANT_APP_DEPLOY_ANT_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
+            {
+                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
+                switch (cmd->AntNum)
+                {
+                    case 1: ISIS_UANT_DeployAntenna1(cmd->BurnTime); break;
+                    case 2: ISIS_UANT_DeployAntenna2(cmd->BurnTime); break;
+                    case 3: ISIS_UANT_DeployAntenna3(cmd->BurnTime); break;
+                    case 4: ISIS_UANT_DeployAntenna4(cmd->BurnTime); break;
+                    default:
+                        CFE_EVS_SendEvent(UANT_APP_CC_ERR_EID, CFE_EVS_EventType_ERROR,
+                                        "Deploy ANT: invalid antenna num %d", cmd->AntNum);
+                        break;
+                }
+            }
+            break;
+
+        /* ───────── 전개 취소 ───────── */
+        case UANT_APP_CANCEL_DEPLOY_ACT_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+                ISIS_UANT_CancelDeploymentSystemActivation();
+            break;
+
+        /* ───────── 상태/센서 조회 ───────── */
+        case UANT_APP_GET_STATUS_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
+                uint16 status;
+                ISIS_UANT_ReportDeploymentStatus(&status);
+                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                "ANT-6F deploy status = 0x%04X", status);
+            }
+            break;
+
+        case UANT_APP_GET_TEMP_CC:
+            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
+            {
+                uint16 raw;
+                ISIS_UANT_MeasureAntennaSystemTemperature(&raw);
+                /* 센서 스케일 변환(예: °C) 후 HK 버퍼에 저장하거나 바로 이벤트로 출력 */
+                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                "ANT-6F temp raw = %u", raw);
+            }
+            break;
+        /*
         case UANT_APP_PROCESS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ProcessCmd_t)))
             {
@@ -109,7 +181,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 UANT_APP_DisplayParamCmd((const UANT_APP_DisplayParamCmd_t *)SBBufPtr);
             }
             break;
-
+        */
         /* default case already found during FC vs length test */
         default:
             CFE_EVS_SendEvent(UANT_APP_CC_ERR_EID, CFE_EVS_EventType_ERROR, "Invalid ground command code: CC = %d",

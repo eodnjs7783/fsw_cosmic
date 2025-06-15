@@ -32,9 +32,9 @@
 #include "uant_app_tbl.h"
 #include "uant_app_utils.h"
 #include "uant_app_msg.h"
-
+// Most of the cmds are in the device directory 
 /* The uant_lib module provides the UANT_Function() prototype */
-#include "uant_lib.h"
+//#include "uant_lib.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 /*                                                                            */
@@ -109,6 +109,7 @@ CFE_Status_t UANT_APP_ResetCountersCmd(const UANT_APP_ResetCountersCmd_t *Msg)
 /*         This function Process Ground Station Command                       */
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
+/*
 CFE_Status_t UANT_APP_ProcessCmd(const UANT_APP_ProcessCmd_t *Msg)
 {
     CFE_Status_t               status;
@@ -116,7 +117,7 @@ CFE_Status_t UANT_APP_ProcessCmd(const UANT_APP_ProcessCmd_t *Msg)
     UANT_APP_ExampleTable_t *TblPtr;
     const char *               TableName = "UANT_APP.ExampleTable";
 
-    /* Sample Use of Example Table */
+    /* Sample Use of Example Table 
 
     status = CFE_TBL_GetAddress(&TblAddr, UANT_APP_Data.TblHandles[0]);
 
@@ -138,17 +139,18 @@ CFE_Status_t UANT_APP_ProcessCmd(const UANT_APP_ProcessCmd_t *Msg)
         return status;
     }
 
-    /* Invoke a function provided by UANT_APP_LIB */
+    /* Invoke a function provided by UANT_APP_LIB 
     UANT_LIB_Function();
 
     return CFE_SUCCESS;
 }
-
+*/
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 /*                                                                            */
 /* A simple example command that displays a passed-in value                   */
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/*
 CFE_Status_t UANT_APP_DisplayParamCmd(const UANT_APP_DisplayParamCmd_t *Msg)
 {
     CFE_EVS_SendEvent(UANT_APP_VALUE_INF_EID, CFE_EVS_EventType_INFORMATION,
@@ -157,3 +159,4 @@ CFE_Status_t UANT_APP_DisplayParamCmd(const UANT_APP_DisplayParamCmd_t *Msg)
 
     return CFE_SUCCESS;
 }
+*/

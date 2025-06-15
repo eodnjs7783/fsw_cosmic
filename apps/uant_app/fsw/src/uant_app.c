@@ -204,6 +204,6 @@ CFE_Status_t UANT_APP_Init(void)
         CFE_EVS_SendEvent(UANT_APP_INIT_INF_EID, CFE_EVS_EventType_INFORMATION, "Uant App Initialized.%s",
                           VersionString);
     }
-
+    */
     return status;
-}*/
+}

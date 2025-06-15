@@ -34,6 +34,7 @@
 /* Verify contents of First Example Table buffer contents                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*
 CFE_Status_t UANT_APP_TblValidationFunc(void *TblData)
 {
     CFE_Status_t               ReturnCode = CFE_SUCCESS;
@@ -41,16 +42,16 @@ CFE_Status_t UANT_APP_TblValidationFunc(void *TblData)
 
     /*
     ** Sample Example Table Validation
-    */
+    
     if (TblDataPtr->Int1 > UANT_APP_TBL_ELEMENT_1_MAX)
     {
-        /* First element is out of range, return an appropriate error code */
+        /* First element is out of range, return an appropriate error code
         ReturnCode = UANT_APP_TABLE_OUT_OF_RANGE_ERR_CODE;
     }
 
     return ReturnCode;
 }
-
+*/
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Output CRC                                                      */
