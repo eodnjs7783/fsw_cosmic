@@ -80,7 +80,7 @@ typedef struct
 /*
 ** Global data structure
 */
-extern UANT_APP_Data_t UANT_APP_Data;
+extern UANT_APP_Data_t UANT_APP_Data; // 메모리를 한 번만 할당하기 위해
 
 /****************************************************************************/
 /*

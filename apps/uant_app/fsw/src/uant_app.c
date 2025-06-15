@@ -180,12 +180,12 @@ CFE_Status_t UANT_APP_Init(void)
                               "Uant App: Error Subscribing to Commands, RC = 0x%08lX", (unsigned long)status);
         }
     }
-
+    /*
     if (status == CFE_SUCCESS)
     {
-        /*
-        ** Register Example Table(s)
-        */
+        
+        //Register Example Table(s)
+        
         status = CFE_TBL_Register(&UANT_APP_Data.TblHandles[0], "ExampleTable", sizeof(UANT_APP_ExampleTable_t),
                                   CFE_TBL_OPT_DEFAULT, UANT_APP_TblValidationFunc);
         if (status != CFE_SUCCESS)
@@ -206,4 +206,4 @@ CFE_Status_t UANT_APP_Init(void)
     }
 
     return status;
-}
+}*/
