@@ -20,6 +20,8 @@
  * @file
  *   UANT_APP Application Message IDs
  */
+
+ // topicid를 사용자가 정의하고 이것을 CCSDS형식(MSGID)으로 바꿔서 여기에 넣어주면 됨 MSGID는 실제 내용이 아니고 메세지의 종류임
 #ifndef UANT_APP_MSGIDS_H
 #define UANT_APP_MSGIDS_H
 

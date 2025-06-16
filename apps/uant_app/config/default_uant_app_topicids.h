@@ -20,6 +20,8 @@
  * @file
  *   UANT_APP Application Topic IDs
  */
+
+ // msgid는 앱에서 구독했을 때 dispatch에서 분기되어 처리되는 것들. 
 #ifndef UANT_APP_TOPICIDS_H
 #define UANT_APP_TOPICIDS_H
 

@@ -55,17 +55,18 @@ typedef struct
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command header */
 } UANT_APP_ResetCountersCmd_t;
 
+/*
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command header 
 } UANT_APP_ProcessCmd_t;
 
 typedef struct
 {
-    CFE_MSG_CommandHeader_t           CommandHeader; /**< \brief Command header */
+    CFE_MSG_CommandHeader_t           CommandHeader; /**< \brief Command header 
     UANT_APP_DisplayParam_Payload_t Payload;
 } UANT_APP_DisplayParamCmd_t;
-
+*/
 /*************************************************************************/
 /*
 ** Type definition (Sample App housekeeping)

@@ -259,7 +259,7 @@ void UANT_APP_TaskPipe(const CFE_SB_Buffer_t *SBBufPtr)
         case UANT_APP_CMD_MID:
             UANT_APP_ProcessGroundCommand(SBBufPtr);
             break;
-
+        //sch 추가?
         case UANT_APP_SEND_HK_MID:
             UANT_APP_SendHkCmd((const UANT_APP_SendHkCmd_t *)SBBufPtr);
             break;
