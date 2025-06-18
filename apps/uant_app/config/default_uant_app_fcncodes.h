@@ -60,3 +60,5 @@
 #define UANT_APP_REPORT_ANT3_ACTIVATION_TIME_CC  22
 #define UANT_APP_REPORT_ANT4_ACTIVATION_TIME_CC  23
 #endif
+
+// processgroundcommand 에서 경우를 나누기 위한 코드
