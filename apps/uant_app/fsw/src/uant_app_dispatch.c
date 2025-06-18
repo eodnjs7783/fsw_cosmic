@@ -193,8 +193,8 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             {
                 uint16 status;
                 ISIS_UANT_ReportDeploymentStatus(&status);
-                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "ANT-6F deploy status = 0x%04X", status);
+                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                  //"ANT-6F deploy status = 0x%04X", status);
             }
             break;
 
@@ -204,8 +204,8 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             {
                 uint16 raw;
                 ISIS_UANT_MeasureAntennaSystemTemperature(&raw);
-                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "ANT-6F temp raw = %u", raw);
+                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                  //"ANT-6F temp raw = %u", raw);
             }
             break;
 
@@ -217,8 +217,8 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 /* Payload에 ant 번호가 담겨있다고 가정 */
                 uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
                 ISIS_UANT_ReportAntennaActivationCount(ant, &count);
-                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "ANT-%d activation count = %u", ant, count);
+                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                  //"ANT-%d activation count = %u", ant, count);
             }
             break;
 
@@ -229,8 +229,8 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 uint16 time;
                 uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
                 ISIS_UANT_ReportAntennaActivationTime(ant, &time);
-                CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "ANT-%d activation time = %u", ant, time);
+                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
+                                  //"ANT-%d activation time = %u", ant, time);
             }
             break;
 
@@ -239,6 +239,8 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                               "Invalid ground command code: CC = %d", CommandCode);
             break;
     }
+
+   
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/

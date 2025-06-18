@@ -31,8 +31,18 @@ typedef enum {
 	UANT_CMD_REPORT_ANT2_ACTIVATION_TIME  = 0xB5, /*  None 	  u8[2]		*/
 	UANT_CMD_REPORT_ANT3_ACTIVATION_TIME  = 0xB6, /*  None 	  u8[2]		*/
 	UANT_CMD_REPORT_ANT4_ACTIVATION_TIME  = 0xB7, /*  None 	  u8[2]		*/
-} uant_cmd_code_t;
+} uant_cmd_code_t;  /// 레지스터 번호임 
 
+//------------------------------------------------------------------------------
+// UANT 모듈 전용 에러 코드 정의
+//------------------------------------------------------------------------------
+typedef enum {
+    UANT_SUCCESS                =  0,  /**< 성공 */
+    UANT_ERROR_NULL_POINTER     = -1,  /**< NULL 포인터 인자 */
+    UANT_ERROR_I2C_WRITE        = -2,  /**< I2C 쓰기 실패 */
+    UANT_ERROR_I2C_READ         = -3,  /**< I2C 읽기 실패 */
+    UANT_ERROR_INVALID_PARAM    = -4   /**< 파라미터 범위 오류 */
+} UANT_ErrorCode_t;
 int ISIS_UANT_SendCmd(uint8_t reg);
 
 int ISIS_UANT_SendCmdWithResponse(uint8_t reg,
