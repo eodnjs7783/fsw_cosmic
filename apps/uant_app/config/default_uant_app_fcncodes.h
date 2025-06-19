@@ -18,15 +18,15 @@
 
 /**
  * @file
- *   Specification for the UANT_APP command function codes
+ *   Specification for the UANT_APP_APP command function codes
  *
  * @note
  *   This file should be strictly limited to the command/function code (CC)
  *   macro definitions.  Other definitions such as enums, typedefs, or other
  *   macros should be placed in the msgdefs.h or msg.h files.
  */
-#ifndef UANT_APP_FCNCODES_H
-#define UANT_APP_FCNCODES_H
+#ifndef UANT_APP_APP_FCNCODES_H
+#define UANT_APP_APP_FCNCODES_H
 
 /************************************************************************
  * Macro Definitions
@@ -35,28 +35,31 @@
 /*
 ** Sample App command codes
 */
-#define UANT_APP_NOOP_CC           0
-#define UANT_APP_RESET_COUNTERS_CC 1
-#define UANT_APP_PROCESS_CC        2
-#define UANT_APP_DISPLAY_PARAM_CC  3
-#define UANT_APP_RESET_CC                         4
-#define UANT_APP_ARM_CC                           5
-#define UANT_APP_DISARM_CC                        6
-#define UANT_APP_AUTODEPLOY_CC                    7
-#define UANT_APP_DEPLOY_ANT_CC                    8
-#define UANT_APP_DEPLOY_ANT1_OVERRIDE_CC          9
-#define UANT_APP_DEPLOY_ANT2_OVERRIDE_CC         10
-#define UANT_APP_DEPLOY_ANT3_OVERRIDE_CC         11
-#define UANT_APP_DEPLOY_ANT4_OVERRIDE_CC         12
-#define UANT_APP_CANCEL_DEPLOY_ACT_CC            13
-#define UANT_APP_GET_STATUS_CC                   14
-#define UANT_APP_GET_TEMP_CC                     15
-#define UANT_APP_REPORT_ANT1_ACTIVATION_CNT_CC   16
-#define UANT_APP_REPORT_ANT2_ACTIVATION_CNT_CC   17
-#define UANT_APP_REPORT_ANT3_ACTIVATION_CNT_CC   18
-#define UANT_APP_REPORT_ANT4_ACTIVATION_CNT_CC   19
-#define UANT_APP_REPORT_ANT1_ACTIVATION_TIME_CC  20
-#define UANT_APP_REPORT_ANT2_ACTIVATION_TIME_CC  21
-#define UANT_APP_REPORT_ANT3_ACTIVATION_TIME_CC  22
-#define UANT_APP_REPORT_ANT4_ACTIVATION_TIME_CC  23
+typedef enum {
+    UANT_APP_NOOP_CC,
+    UANT_APP_RESET_COUNTERS_CC,
+
+
+    UANT_APP_RESET_CC,
+    UANT_APP_GET_DEPLOYMENT_STATUS_CC,
+    UANT_APP_ARM_ANTENNA_SYSTEMS_CC,
+    UANT_APP_DISARM_CC,
+    UANT_APP_AUTOMATED_DEPLOYMENT_CC,
+    UANT_APP_CANCEL_DEPLOYMENT_ACTIVATION_CC,
+
+    UANT_APP_DEPLOY_ANT1_CC,
+    UANT_APP_DEPLOY_ANT2_CC,
+    UANT_APP_DEPLOY_ANT3_CC,
+    UANT_APP_DEPLOY_ANT4_CC,
+    UANT_APP_DEPLOY_ANT1_OVERRIDE_CC,
+    UANT_APP_DEPLOY_ANT2_OVERRIDE_CC,
+    UANT_APP_DEPLOY_ANT3_OVERRIDE_CC,
+    UANT_APP_DEPLOY_ANT4_OVERRIDE_CC,
+    UANT_APP_REPORT_ANT_ACTIVATION_CNT_CC,
+    UANT_APP_REPORT_ANT_ACTIVATION_TIME_CC,
+    UANT_APP_MEASURE_SYSTEM_TEMPERATURE_CC,
+}uant_app_cc_n;
+
 #endif
+
+// processgroundcommand 에서 경우를 나누기 위한 코드

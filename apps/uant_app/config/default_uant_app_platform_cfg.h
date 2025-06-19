@@ -36,6 +36,7 @@
 #define UANT_APP_PLATFORM_CFG_H
 
 #include "uant_app_mission_cfg.h"
-#include "uant_app_internal_cfg.h"
+#include "uant_app_internal_cfg.h" // 공용, 앱내부 전용 config를 모두 포함하던 과거 config헤더를 사용할 수 있게 하는 헤더
+//실질적으로 interface, internal 두개만 수정하면 됨 우리는
 
 #endif
