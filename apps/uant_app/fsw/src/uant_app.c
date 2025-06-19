@@ -140,7 +140,7 @@ CFE_Status_t UANT_APP_Init(void)
     {
         /*
          ** Initialize housekeeping packet (clear user data area).
-         자기가 생성하는 메세지에만 하면 됨, cc에 의해 리포트를 생성해서 하드웨어에 write하는 것은 해당 ㄴㄴ SB msg에만 해당
+         자기가 생성하는 메세지에만 하면 됨
          */
         CFE_MSG_Init(CFE_MSG_PTR(UANT_APP_Data.HkTlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_HK_TLM_MID),
                      sizeof(UANT_APP_Data.HkTlm));

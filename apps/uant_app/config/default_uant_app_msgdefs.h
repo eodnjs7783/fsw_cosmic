@@ -18,7 +18,7 @@
 
 /**
  * @file
- *   Specification for the UANT_APP command and telemetry
+ *   Specification for the UANT_APP command and telemetry 
  *   message constant definitions.
  *
  *  For UANT_APP this is only the function/command code definitions

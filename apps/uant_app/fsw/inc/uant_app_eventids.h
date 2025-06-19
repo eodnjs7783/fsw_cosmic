@@ -38,5 +38,18 @@
 #define UANT_APP_SUB_HK_ERR_EID    10
 #define UANT_APP_SUB_CMD_ERR_EID   11
 #define UANT_APP_TABLE_REG_ERR_EID 12
+/* ───── Error Events: Command Execution Failures ───── */
+#define UANT_APP_RESET_ERR_EID          13  /* ISIS_UANT_Reset 실패 */
+#define UANT_APP_ARM_ERR_EID            14  /* ISIS_UANT_ArmAntennaSystems 실패 */
+#define UANT_APP_DISARM_ERR_EID         15  /* ISIS_UANT_Disarm 실패 */
+#define UANT_APP_AUTO_DEPLOY_ERR_EID    16  /* ISIS_UANT_AutomatedSequentialDeployment 실패 */
+#define UANT_APP_DEPLOY_ERR_EID         17  /* ISIS_UANT_DeployAntennaX 실패 */
+#define UANT_APP_DEPLOY_OVRD_ERR_EID    18  /* ISIS_UANT_DeployAntennaXWithOverride 실패 */
+#define UANT_APP_DEPLOY_CANCEL_ERR_EID  19  /* ISIS_UANT_CancelDeploymentSystemActivation 실패 */
+
+#define UANT_APP_GET_STATUS_ERR_EID     20  /* ISIS_UANT_ReportDeploymentStatus 실패 */
+#define UANT_APP_MEASURE_TEMP_ERR_EID   21  /* ISIS_UANT_MeasureAntennaSystemTemperature 실패 */
+#define UANT_APP_GET_ACT_CNT_ERR_EID    22  /* ISIS_UANT_ReportAntennaActivationCount 실패 */
+#define UANT_APP_GET_ACT_TIME_ERR_EID   23  /* ISIS_UANT_ReportAntennaActivationTime 실패 */
 
 #endif /* UANT_APP_EVENTS_H */

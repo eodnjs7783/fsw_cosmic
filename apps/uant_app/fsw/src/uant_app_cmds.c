@@ -44,7 +44,7 @@
 /*         telemetry, packetize it and send it to the housekeeping task via   */
 /*         the software bus                                                   */
 /* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
-CFE_Status_t UANT_APP_SendHkCmd(const UANT_APP_SendHkCmd_t *Msg)
+CFE_Status_t UANT_APP_SendHkCmd(const UANT_APP_SendHkCmd_t *Msg) // Msg는 트리거일 뿐
 {
     int i;
 

@@ -18,7 +18,7 @@
 
 /**
  * @file
- *   Specification for the UANT_APP command and telemetry
+ *   Specification for the UANT_APP command and telemetry // sb로 command도 msg로 받지만 app이 tlm도 msg로 sb에 보낸다. 
  *   message data types.
  *
  * @note

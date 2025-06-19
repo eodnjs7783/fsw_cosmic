@@ -73,7 +73,7 @@ bool UANT_APP_VerifyCmdLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLe
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
-{
+{   CFE_Status_t     status; // 내부 판단용
     CFE_MSG_FcnCode_t CommandCode = 0;
     CFE_MSG_GetFcnCode(&SBBufPtr->Msg, &CommandCode);
 
@@ -100,7 +100,17 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
         case UANT_RESET_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
-                ISIS_UANT_Reset();
+                status = ISIS_UANT_Reset();
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_RESET_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Reset command failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -108,14 +118,35 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
         case UANT_ARM_ANTENNA_SYSTEMS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
-                ISIS_UANT_ArmAntennaSystems();
+                status = ISIS_UANT_ArmAntennaSystems();
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_ARM_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: ArmAntennaSystems failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
+                
             }
             break;
 
         case UANT_DISARM_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
-                ISIS_UANT_Disarm();
+                status = ISIS_UANT_Disarm();
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_DISARM_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Disarm failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -124,7 +155,17 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_AutoDeployCmd_t)))
             {
                 const UANT_APP_AutoDeployCmd_t *cmd = (const UANT_APP_AutoDeployCmd_t *)SBBufPtr;
-                ISIS_UANT_AutomatedSequentialDeployment(cmd->BurnTime);
+                status = ISIS_UANT_AutomatedSequentialDeployment(cmd->BurnTime);
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_AUTO_DEPLOY_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: AutomatedSequentialDeployment failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -138,44 +179,58 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
                 switch (CommandCode)
                 {
-                    case UANT_DEPLOY_ANT1_CC: ISIS_UANT_DeployAntenna1(cmd->BurnTime); break;
-                    case UANT_DEPLOY_ANT2_CC: ISIS_UANT_DeployAntenna2(cmd->BurnTime); break;
-                    case UANT_DEPLOY_ANT3_CC: ISIS_UANT_DeployAntenna3(cmd->BurnTime); break;
-                    case UANT_DEPLOY_ANT4_CC: ISIS_UANT_DeployAntenna4(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT1_CC: status = ISIS_UANT_DeployAntenna1(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT2_CC: status = ISIS_UANT_DeployAntenna2(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT3_CC: status = ISIS_UANT_DeployAntenna3(cmd->BurnTime); break;
+                    case UANT_DEPLOY_ANT4_CC: status = ISIS_UANT_DeployAntenna4(cmd->BurnTime); break;
+                }
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_DEPLOY_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: DeployAntennaX failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
                 }
             }
             break;
 
         /* ───────── Override 전개 ───────── */
         case UANT_DEPLOY_ANT1_OVERRIDE_CC:
-            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
-            {
-                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
-                ISIS_UANT_DeployAntenna1WithOverride(cmd->BurnTime);
-            }
-            break;
-
         case UANT_DEPLOY_ANT2_OVERRIDE_CC:
-            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
-            {
-                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
-                ISIS_UANT_DeployAntenna2WithOverride(cmd->BurnTime);
-            }
-            break;
-
         case UANT_DEPLOY_ANT3_OVERRIDE_CC:
-            if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
-            {
-                const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
-                ISIS_UANT_DeployAntenna3WithOverride(cmd->BurnTime);
-            }
-            break;
-
         case UANT_DEPLOY_ANT4_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_DeployAntCmd_t)))
             {
                 const UANT_APP_DeployAntCmd_t *cmd = (const UANT_APP_DeployAntCmd_t *)SBBufPtr;
-                ISIS_UANT_DeployAntenna4WithOverride(cmd->BurnTime);
+                switch (CommandCode)
+                {
+                    case UANT_DEPLOY_ANT1_OVERRIDE_CC:
+                        status = ISIS_UANT_DeployAntenna1WithOverride(cmd->BurnTime);
+                        break;
+                    case UANT_DEPLOY_ANT2_OVERRIDE_CC:
+                        status = ISIS_UANT_DeployAntenna2WithOverride(cmd->BurnTime);
+                        break;
+                    case UANT_DEPLOY_ANT3_OVERRIDE_CC:
+                        status = ISIS_UANT_DeployAntenna3WithOverride(cmd->BurnTime);
+                        break;
+                    case UANT_DEPLOY_ANT4_OVERRIDE_CC:
+                        status = ISIS_UANT_DeployAntenna4WithOverride(cmd->BurnTime);
+                        break;
+                }
+
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_DEPLOY_OVRD_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: DeployAntennaXWithOverride failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -183,18 +238,39 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
         case UANT_CANCEL_DEPLOYMENT_ACTIVATION_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
-                ISIS_UANT_CancelDeploymentSystemActivation();
-            }
-            break;
+                status = ISIS_UANT_CancelDeploymentSystemActivation();
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_DEPLOY_CANCEL_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: CancelDeploymentSystemActivation failed, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    UANT_APP_Data.CmdCounter++;
+                }
+                    }
+                    break;
 
         /* ───────── 상태 조회 ───────── */
         case UANT_GET_DEPLOYMENT_STATUS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
-                uint16 status;
-                ISIS_UANT_ReportDeploymentStatus(&status);
-                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  //"ANT-6F deploy status = 0x%04X", status);
+                uint16 deploy_status; //읽어온 payload를 저장할 저장
+                status=ISIS_UANT_ReportDeploymentStatus(&deploy_status); //저장하고자 할 변수의 주소를 넣으면 읽어와서 넣어줌
+                
+                
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_GET_STATUS_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Failed to get deployment status, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -203,9 +279,18 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(CFE_MSG_CommandHeader_t)))
             {
                 uint16 raw;
-                ISIS_UANT_MeasureAntennaSystemTemperature(&raw);
-                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  //"ANT-6F temp raw = %u", raw);
+                status=ISIS_UANT_MeasureAntennaSystemTemperature(&raw);
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_MEASURE_TEMP_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Failed to measure temperature, status = 0x%08X", status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                    
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -216,9 +301,18 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 uint8 count;
                 /* Payload에 ant 번호가 담겨있다고 가정 */
                 uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
-                ISIS_UANT_ReportAntennaActivationCount(ant, &count);
-                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  //"ANT-%d activation count = %u", ant, count);
+                status=ISIS_UANT_ReportAntennaActivationCount(ant, &count);
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_GET_ACT_CNT_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Failed to report activation count for ANT-%d, status = 0x%08X", ant, status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+             
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
@@ -228,9 +322,18 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             {
                 uint16 time;
                 uint8 ant = ((UANT_APP_DeployAntCmd_t *)SBBufPtr)->AntNum;
-                ISIS_UANT_ReportAntennaActivationTime(ant, &time);
-                //CFE_EVS_SendEvent(UANT_APP_DRV_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  //"ANT-%d activation time = %u", ant, time);
+                status=ISIS_UANT_ReportAntennaActivationTime(ant, &time);
+                if (status != CFE_SUCCESS)
+                {
+                    CFE_EVS_SendEvent(UANT_APP_GET_ACT_TIME_ERR_EID, CFE_EVS_EventType_ERROR,
+                                    "UANT: Failed to report activation time for ANT-%d, status = 0x%08X", ant, status);
+                    UANT_APP_Data.ErrCounter++;
+                }
+                else
+                {
+                  
+                    UANT_APP_Data.CmdCounter++;
+                }
             }
             break;
 
