@@ -28,13 +28,15 @@
 
 #include "common_types.h"
 #include "uant_app_fcncodes.h"
-
+/*
 typedef struct UANT_APP_DisplayParam_Payload
 {
-    uint32 ValU32;                            /**< 32 bit unsigned integer value */
-    int16  ValI16;                            /**< 16 bit signed integer value */
-    char   ValStr[UANT_APP_STRING_VAL_LEN]; /**< An example string */
+    uint32 ValU32;                            /**< 32 bit unsigned integer value 
+    int16  ValI16;                            /**< 16 bit signed integer value 
+    char   ValStr[UANT_APP_STRING_VAL_LEN]; /**< An example string 
 } UANT_APP_DisplayParam_Payload_t;
+
+*/
 
 /*************************************************************************/
 /*

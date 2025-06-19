@@ -3,27 +3,8 @@
 #include <cfe_srl.h>
 #include <uant/uant.h>
 
-
-// I2C 통신을 위한 핸들 인덱서 정의
-#ifndef UANT_I2C_HANDLE_INDEXER
-#define UANT_I2C_HANDLE_INDEXER CFE_SRL_I2C0_HANDLE_INDEXER
-#endif
-
-// 전역 I2C 핸들 포인터 (초기값 NULL)
-static CFE_SRL_IO_Handle_t *I2C_Handle = NULL;
-
-/**
- * @brief I2C 핸들을 반환하거나 초기화
- * @return 초기화된 I2C 핸들 포인터
- * @details 최초 호출 시 CFE_SRL_ApiGetHandle로 핸들을 가져오고,
- *          이후에는 캐싱된 핸들을 반환하여 중복 초기화를 방지합니다.
- */
-static inline CFE_SRL_IO_Handle_t* Get_I2C_Handle(void) {
-    if (I2C_Handle == NULL) {
-        I2C_Handle = CFE_SRL_ApiGetHandle(UANT_I2C_HANDLE_INDEXER);
-    }
-    return I2C_Handle;
-}
+/* 전역 핸들: I2C0 고정 사용 */
+static CFE_SRL_IO_Handle_t *I2C_Handle = CFE_SRL_ApiGetHandle(CFE_SRL_I2C0_HANDLE_INDEXER);
 
 /**
  * @brief 커맨드만 전송 (레지스터 주소만)
@@ -39,7 +20,7 @@ int ISIS_UANT_SendCmd(uint8_t cc) {
     params.Timeout = 10;      // 타임아웃: 10ms
 
     // I2C 쓰기 수행
-    int32 status = CFE_SRL_ApiWrite(Get_I2C_Handle(), &params);
+    int32 status = CFE_SRL_ApiWrite(I2C_Handle, &params);
     return (status == CFE_SRL_OK ? DEVICE_SUCCESS : DEVICE_ERROR);
 }
 
@@ -58,7 +39,7 @@ int ISIS_UANT_SendCmdWithParam(uint8_t cc, uint8_t param) {
     params.Timeout = 10;          // 타임아웃: 10ms
 
     // I2C 쓰기 수행
-    int32 status = CFE_SRL_ApiWrite(Get_I2C_Handle(), &params);
+    int32 status = CFE_SRL_ApiWrite(I2C_Handle, &params);
     return (status == CFE_SRL_OK ? DEVICE_SUCCESS : DEVICE_ERROR);
 }
 
@@ -80,7 +61,7 @@ int ISIS_UANT_SendCmdWithResponse(uint8_t cc, uint8_t respLen, void* resp) {
     params.Timeout = 100;            // 타임아웃: 100ms
 
     // I2C 읽기 수행
-    int32 status = CFE_SRL_ApiRead(Get_I2C_Handle(), &params);
+    int32 status = CFE_SRL_ApiRead(I2C_Handle, &params);
     return (status == CFE_SRL_OK ? DEVICE_SUCCESS : DEVICE_ERR_READ);
 }
 
