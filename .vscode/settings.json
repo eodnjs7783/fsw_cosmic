@@ -57,7 +57,8 @@
         "future": "cpp",
         "system_error": "cpp",
         "regex": "cpp",
-        "cfe_config.h": "c"
+        "cfe_config.h": "c",
+        "uant.h": "c"
     },
     "cmake.sourceDirectory": "/home/hj/Documents/FSW/tools/elf2cfetbl"
 }

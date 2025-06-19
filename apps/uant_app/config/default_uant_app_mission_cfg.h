@@ -30,7 +30,7 @@
  */
 #ifndef UANT_APP_MISSION_CFG_H
 #define UANT_APP_MISSION_CFG_H
-
+#define MAX_TM_DATASIZE     170
 #include "uant_app_interface_cfg.h"
 
 #endif

@@ -139,7 +139,7 @@ CFE_Status_t UANT_APP_Init(void)
     else
     {
         /*
-         ** Initialize housekeeping packet (clear user data area).
+         ** Initialize housekeeping packet (clear user data area). // 헤더 초기화하는 코드
          자기가 생성하는 메세지에만 하면 됨
          */
         CFE_MSG_Init(CFE_MSG_PTR(UANT_APP_Data.HkTlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_HK_TLM_MID),

@@ -45,7 +45,7 @@
 /*         the software bus                                                   */
 /* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
 CFE_Status_t UANT_APP_SendHkCmd(const UANT_APP_SendHkCmd_t *Msg) // Msg는 트리거일 뿐
-{
+{//hk tlm 보내는 함수
     int i;
 
     /*

@@ -185,6 +185,34 @@ typedef struct
     UANT_APP_HkTlm_Payload_t  Payload;
 } UANT_APP_HkTlm_t;
 
+/*
+** Operation Telemetry Packet
+*/
+typedef struct 
+{
+    CFE_MSG_TelemetryHeader_t TelemetryHeader;
+    uint16 Payload;
+}UANT_APP_GET_DEPLOYMENT_STATUS_t;
+
+typedef struct 
+{
+    CFE_MSG_TelemetryHeader_t TelemetryHeader;
+    uint8 Payload;
+}UANT_APP_REPORT_ANT_ACTIVATION_CNT_t;
+
+typedef struct 
+{
+    CFE_MSG_TelemetryHeader_t TelemetryHeader;
+    uint16 Payload;
+}UANT_APP_MEASURE_SYSTEM_TEMPERATURE_t;
+
+typedef struct 
+{
+    CFE_MSG_TelemetryHeader_t TelemetryHeader;
+    uint16 Payload;
+}UANT_APP_REPORT_ANT_ACTIVATION_TIME_t;
+
+
 #endif /* UANT_APP_MSGSTRUCT_H */
 
 /*
