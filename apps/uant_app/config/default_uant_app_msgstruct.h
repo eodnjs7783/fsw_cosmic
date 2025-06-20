@@ -215,20 +215,3 @@ typedef struct
 
 #endif /* UANT_APP_MSGSTRUCT_H */
 
-/*
-typedef struct
-{
-    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command header 
-} UANT_APP_ProcessCmd_t;
-
-typedef struct
-{
-    CFE_MSG_CommandHeader_t           CommandHeader; /**< \brief Command header 
-    UANT_APP_DisplayParam_Payload_t Payload;
-} UANT_APP_DisplayParamCmd_t;
-*/
-/*************************************************************************/
-/*
-** Type definition (Sample App housekeeping)
-*/
-

@@ -31,6 +31,8 @@
 #include "uant_app_eventids.h"
 #include "uant_app_msgids.h"
 #include "uant_app_msg.h"
+#include "cfe_msg.h"
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 /*                                                                            */
@@ -80,7 +82,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
     switch (CommandCode)
     {
         /* ───────── NOOP ───────── */
-        case UANT_NOOP_CC:
+        case UANT_APP_NOOP_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_NoopCmd_t))) //지상에서 보내준 것과 정의한 구조가 일치하는지 검증
             {
                 UANT_APP_NoopCmd((const UANT_APP_NoopCmd_t *)SBBufPtr);
@@ -88,8 +90,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 카운터 리셋 ───────── */
-        case UANT_RESET_COUNTERS_CC:
-        case UANT_RESET_APP_CMD_COUNTERS_CC:
+        case UANT_APP_RESET_COUNTERS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ResetCountersCmd_t)))
             {
                 UANT_APP_ResetCountersCmd((const UANT_APP_ResetCountersCmd_t *)SBBufPtr);
@@ -97,7 +98,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 장치 리셋 ───────── */
-        case UANT_RESET_CC:
+        case UANT_APP_RESET_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_ResetCmd_t)))
             {
                 status = ISIS_UANT_Reset();
@@ -115,7 +116,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── ARM / DISARM ───────── */
-        case UANT_ARM_ANTENNA_SYSTEMS_CC:
+        case UANT_APP_ARM_ANTENNA_SYSTEMS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_ArmAntennaSystemsCmd_t)))
             {
                 status = ISIS_UANT_ArmAntennaSystems();
@@ -133,7 +134,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             }
             break;
 
-        case UANT_DISARM_CC:
+        case UANT_APP_DISARM_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_DisarmCmd_t)))
             {
                 status = ISIS_UANT_Disarm();
@@ -151,7 +152,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 자동 전개 ───────── */
-        case UANT_AUTOMATED_DEPLOYMENT_CC:
+        case UANT_APP_AUTOMATED_DEPLOYMENT_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_AutomatedDeploymentCmd_t)))
             {
                 const UANT_APP_ISIS_AutomatedDeploymentCmd_t *cmd = (const UANT_APP_ISIS_AutomatedDeploymentCmd_t *)SBBufPtr;
@@ -170,19 +171,19 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 단일 안테나 전개 ───────── */
-        case UANT_DEPLOY_ANT1_CC:
-        case UANT_DEPLOY_ANT2_CC:
-        case UANT_DEPLOY_ANT3_CC:
-        case UANT_DEPLOY_ANT4_CC:
+        case UANT_APP_DEPLOY_ANT1_CC:
+        case UANT_APP_DEPLOY_ANT2_CC:
+        case UANT_APP_DEPLOY_ANT3_CC:
+        case UANT_APP_DEPLOY_ANT4_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_DeployAnt1Cmd_t)))
             {
                 const UANT_APP_ISIS_DeployAnt1Cmd_t *cmd = (const UANT_APP_ISIS_DeployAnt1Cmd_t *)SBBufPtr;
                 switch (CommandCode)
                 {
-                    case UANT_DEPLOY_ANT1_CC: status = ISIS_UANT_DeployAntenna1(cmd->Arg); break;
-                    case UANT_DEPLOY_ANT2_CC: status = ISIS_UANT_DeployAntenna2(cmd->Arg); break;
-                    case UANT_DEPLOY_ANT3_CC: status = ISIS_UANT_DeployAntenna3(cmd->Arg); break;
-                    case UANT_DEPLOY_ANT4_CC: status = ISIS_UANT_DeployAntenna4(cmd->Arg); break;
+                    case UANT_APP_DEPLOY_ANT1_CC: status = ISIS_UANT_DeployAntenna1(cmd->Arg); break;
+                    case UANT_APP_DEPLOY_ANT2_CC: status = ISIS_UANT_DeployAntenna2(cmd->Arg); break;
+                    case UANT_APP_DEPLOY_ANT3_CC: status = ISIS_UANT_DeployAntenna3(cmd->Arg); break;
+                    case UANT_APP_DEPLOY_ANT4_CC: status = ISIS_UANT_DeployAntenna4(cmd->Arg); break;
                 }
                 if (status != CFE_SUCCESS)
                 {
@@ -198,25 +199,25 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── Override 전개 ───────── */
-        case UANT_DEPLOY_ANT1_OVERRIDE_CC:
-        case UANT_DEPLOY_ANT2_OVERRIDE_CC:
-        case UANT_DEPLOY_ANT3_OVERRIDE_CC:
-        case UANT_DEPLOY_ANT4_OVERRIDE_CC:
+        case UANT_APP_DEPLOY_ANT1_OVERRIDE_CC:
+        case UANT_APP_DEPLOY_ANT2_OVERRIDE_CC:
+        case UANT_APP_DEPLOY_ANT3_OVERRIDE_CC:
+        case UANT_APP_DEPLOY_ANT4_OVERRIDE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_DeployAnt1OverrideCmd_t)))
             {
                 const UANT_APP_ISIS_DeployAnt1OverrideCmd_t *cmd = (const UANT_APP_ISIS_DeployAnt1OverrideCmd_t *)SBBufPtr; //MSG에 딸려오는 건 arg임 메시지 구조상 그렇다
                 switch (CommandCode)
                 {
-                    case UANT_DEPLOY_ANT1_OVERRIDE_CC:
+                    case UANT_APP_DEPLOY_ANT1_OVERRIDE_CC:
                         status = ISIS_UANT_DeployAntenna1WithOverride(cmd->Arg);
                         break;
-                    case UANT_DEPLOY_ANT2_OVERRIDE_CC:
+                    case UANT_APP_DEPLOY_ANT2_OVERRIDE_CC:
                         status = ISIS_UANT_DeployAntenna2WithOverride(cmd->Arg);
                         break;
-                    case UANT_DEPLOY_ANT3_OVERRIDE_CC:
+                    case UANT_APP_DEPLOY_ANT3_OVERRIDE_CC:
                         status = ISIS_UANT_DeployAntenna3WithOverride(cmd->Arg);
                         break;
-                    case UANT_DEPLOY_ANT4_OVERRIDE_CC:
+                    case UANT_APP_DEPLOY_ANT4_OVERRIDE_CC:
                         status = ISIS_UANT_DeployAntenna4WithOverride(cmd->Arg);
                         break;
                 }
@@ -235,7 +236,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
             break;
 
         /* ───────── 전개 취소 ───────── */
-        case UANT_CANCEL_DEPLOYMENT_ACTIVATION_CC:
+        case UANT_APP_CANCEL_DEPLOYMENT_ACTIVATION_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_CancelDeploymentActivationCmd_t)))
             {
                 status = ISIS_UANT_CancelDeploymentSystemActivation();
@@ -253,7 +254,7 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                     break;
 
         /* ───────── 상태 조회 ───────── */
-        case UANT_GET_DEPLOYMENT_STATUS_CC:
+        case UANT_APP_GET_DEPLOYMENT_STATUS_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_ReportDeploymentStatusCmd_t)))
             {
                 uint16 deploy_status; //읽어온 payload를 저장할 저장
@@ -269,17 +270,17 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 else
                 {
                     UANT_APP_GET_DEPLOYMENT_STATUS_t tlm;
-                    CFE_SB_InitMsg(&tlm.TelemetryHeader, UANT_APP_OP_TLM_MID, sizeof(tlm), true);
+                    CFE_MSG_Init(CFE_MSG_PTR(tlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_OP_TLM_MID), sizeof(tlm));
                     tlm.Payload = deploy_status;
-                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(&tlm.TelemetryHeader));
-                    CFE_SB_TransmitMsg(CFE_MSG_PTR(&tlm.TelemetryHeader), true);
+                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(tlm.TelemetryHeader));
+                    CFE_SB_TransmitMsg(CFE_MSG_PTR(tlm.TelemetryHeader), true);
                     UANT_APP_Data.CmdCounter++;
                 }
             }
             break;
 
         /* ───────── 온도 조회 ───────── */
-        case UANT_MEASURE_SYSTEM_TEMPERATURE_CC:
+        case UANT_APP_MEASURE_SYSTEM_TEMPERATURE_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_MeasureSystemTemperatureCmd_t)))
             {
                 uint16 raw;
@@ -293,17 +294,17 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 else
                 {
                     UANT_APP_MEASURE_SYSTEM_TEMPERATURE_t tlm;
-                    CFE_SB_InitMsg(&tlm.TelemetryHeader, UANT_APP_OP_TLM_MID, sizeof(tlm), true);
+                    CFE_MSG_Init(CFE_MSG_PTR(tlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_OP_TLM_MID), sizeof(tlm));
                     tlm.Payload = raw;
-                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(&tlm.TelemetryHeader));
-                    CFE_SB_TransmitMsg(CFE_MSG_PTR(&tlm.TelemetryHeader), true);
+                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(tlm.TelemetryHeader));
+                    CFE_SB_TransmitMsg(CFE_MSG_PTR(tlm.TelemetryHeader), true);
                     UANT_APP_Data.CmdCounter++;
                 }
             }
             break;
 
         /* ───────── 활성화 횟수 보고 ───────── */
-        case UANT_REPORT_ANT_ACTIVATION_CNT_CC:
+        case UANT_APP_REPORT_ANT_ACTIVATION_CNT_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_ReportAntActivationCntCmd_t)))
             {
                 uint8 count; //buffer 즉 일정크기의 임시저장소
@@ -319,17 +320,17 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 else
                 {
                     UANT_APP_REPORT_ANT_ACTIVATION_CNT_t tlm;
-                    CFE_SB_InitMsg(&tlm.TelemetryHeader, UANT_APP_OP_TLM_MID, sizeof(tlm), true);
+                    CFE_MSG_Init(CFE_MSG_PTR(tlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_OP_TLM_MID), sizeof(tlm));
                     tlm.Payload = count;
-                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(&tlm.TelemetryHeader));
-                    CFE_SB_TransmitMsg(CFE_MSG_PTR(&tlm.TelemetryHeader), true);
+                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(tlm.TelemetryHeader));
+                    CFE_SB_TransmitMsg(CFE_MSG_PTR(tlm.TelemetryHeader), true);
                     UANT_APP_Data.CmdCounter++;
                 }
             }
             break;
 
         /* ───────── 활성화 시간 보고 ───────── */
-        case UANT_REPORT_ANT_ACTIVATION_TIME_CC:
+        case UANT_APP_REPORT_ANT_ACTIVATION_TIME_CC:
             if (UANT_APP_VerifyCmdLength(&SBBufPtr->Msg, sizeof(UANT_APP_ISIS_ReportAntActivationTimeCmd_t)))
             {
                 uint16 time;
@@ -344,10 +345,10 @@ void UANT_APP_ProcessGroundCommand(const CFE_SB_Buffer_t *SBBufPtr)
                 else
                 {
                     UANT_APP_REPORT_ANT_ACTIVATION_TIME_t tlm;
-                    CFE_SB_InitMsg(&tlm.TelemetryHeader, UANT_APP_OP_TLM_MID, sizeof(tlm), true);
+                    CFE_MSG_Init(CFE_MSG_PTR(tlm.TelemetryHeader), CFE_SB_ValueToMsgId(UANT_APP_OP_TLM_MID), sizeof(tlm));
                     tlm.Payload = time;
-                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(&tlm.TelemetryHeader));
-                    CFE_SB_TransmitMsg(CFE_MSG_PTR(&tlm.TelemetryHeader), true);
+                    CFE_SB_TimeStampMsg(CFE_MSG_PTR(tlm.TelemetryHeader));
+                    CFE_SB_TransmitMsg(CFE_MSG_PTR(tlm.TelemetryHeader), true);
 
                     UANT_APP_Data.CmdCounter++;
                 }

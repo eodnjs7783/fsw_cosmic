@@ -31,6 +31,8 @@
 #include "uant_app_dispatch.h"
 #include "uant_app_tbl.h"
 #include "uant_app_version.h"
+#include "cfe_msg.h"
+
 
 /*
 ** global data
@@ -110,7 +112,7 @@ void UANT_APP_Main(void)
 CFE_Status_t UANT_APP_Init(void)
 {
     CFE_Status_t status;
-    char         VersionString[UANT_APP_CFG_MAX_VERSION_STR_LEN];
+    
 
     /* Zero out the global data structure */
     memset(&UANT_APP_Data, 0, sizeof(UANT_APP_Data));
@@ -132,7 +134,7 @@ CFE_Status_t UANT_APP_Init(void)
     if (status != CFE_SUCCESS)
     {
         CFE_ES_WriteToSysLog("Uant App: Error Registering Events, RC = 0x%08lX\n", (unsigned long)status);
-        CFE_EVS_SendEvent(UANT_PIPE_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(UANT_APP_PIPE_ERR_EID, CFE_EVS_EventType_ERROR,
                             "UANT App: Error Registering Events, RC = 0x%08lX\n", (unsigned long)status);
                             
     }
@@ -181,30 +183,7 @@ CFE_Status_t UANT_APP_Init(void)
                               "Uant App: Error Subscribing to Commands, RC = 0x%08lX", (unsigned long)status);
         }
     }
-    /*
-    if (status == CFE_SUCCESS)
-    {
-        
-        //Register Example Table(s)
-        
-        status = CFE_TBL_Register(&UANT_APP_Data.TblHandles[0], "ExampleTable", sizeof(UANT_APP_ExampleTable_t),
-                                  CFE_TBL_OPT_DEFAULT, UANT_APP_TblValidationFunc);
-        if (status != CFE_SUCCESS)
-        {
-            CFE_EVS_SendEvent(UANT_APP_TABLE_REG_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Uant App: Error Registering Example Table, RC = 0x%08lX", (unsigned long)status);
-        }
-        else
-        {
-            status = CFE_TBL_Load(UANT_APP_Data.TblHandles[0], CFE_TBL_SRC_FILE, UANT_APP_TABLE_FILE);
-        }
 
-        CFE_Config_GetVersionString(VersionString, UANT_APP_CFG_MAX_VERSION_STR_LEN, "Uant App", UANT_APP_VERSION,
-                                    UANT_APP_BUILD_CODENAME, UANT_APP_LAST_OFFICIAL);
-
-        CFE_EVS_SendEvent(UANT_APP_INIT_INF_EID, CFE_EVS_EventType_INFORMATION, "Uant App Initialized.%s",
-                          VersionString);
-    }
-    */
+    
     return status;
 }

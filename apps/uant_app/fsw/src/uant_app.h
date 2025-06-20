@@ -30,6 +30,7 @@
 */
 #include "cfe.h"
 #include "cfe_config.h"
+#include "cfe_msg.h"
 
 #include "uant_app_mission_cfg.h"
 #include "uant_app_platform_cfg.h"

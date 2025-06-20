@@ -4,7 +4,7 @@
 #include <cfe.h>
 #include <stdint.h>
 
-#include "uant_i2c.h"
+
 
 typedef enum {
 /*  Command                                 Code      Param   Response 	*/

@@ -32,8 +32,8 @@
 
 CFE_Status_t UANT_APP_SendHkCmd(const UANT_APP_SendHkCmd_t *Msg);
 CFE_Status_t UANT_APP_ResetCountersCmd(const UANT_APP_ResetCountersCmd_t *Msg);
-CFE_Status_t UANT_APP_ProcessCmd(const UANT_APP_ProcessCmd_t *Msg);
+//CFE_Status_t UANT_APP_ProcessCmd(const UANT_APP_ProcessCmd_t *Msg);
 CFE_Status_t UANT_APP_NoopCmd(const UANT_APP_NoopCmd_t *Msg);
-CFE_Status_t UANT_APP_DisplayParamCmd(const UANT_APP_DisplayParamCmd_t *Msg);
+//CFE_Status_t UANT_APP_DisplayParamCmd(const UANT_APP_DisplayParamCmd_t *Msg);
 
 #endif /* UANT_APP_CMDS_H */
