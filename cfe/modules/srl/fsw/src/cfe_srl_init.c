@@ -10,8 +10,13 @@
 CFE_SRL_IO_Handle_t *Handles[CFE_SRL_GNRL_DEVICE_NUM];
 /**************************************************
  * Index of Each device
+<<<<<<< HEAD
  * 0 : I2C0 Handle
+
  **************************************************/
+
+CFE_SRL_GPIO_Handle_t GPIO[CFE_SRL_TOT_GPIO_NUM];
+
 
 /************************************************************************
  * Early Initialization function executed at cFE ES
@@ -29,6 +34,7 @@ int32 CFE_SRL_EarlyInit(void) {
 	 * Serial Comm. Init
  	 * Only `ready == true` interface is initialized
 	 **************************************************/
+
 	/* I2C0 Init */
 	Status = CFE_SRL_HandleInit(&Handles[CFE_SRL_I2C0_HANDLE_INDEXER], "I2C0", "/dev/i2c-0", SRL_DEVTYPE_I2C, CFE_SRL_I2C0_HANDLE_INDEXER, 0);
 	Handles[CFE_SRL_I2C0_HANDLE_INDEXER]->Func.TxFunc = CFE_SRL_WriteGenericI2C;
@@ -36,7 +42,9 @@ int32 CFE_SRL_EarlyInit(void) {
 	if (Status != CFE_SUCCESS) {
 		CFE_ES_WriteToSysLog("%s: I2C0 Initialization failed! RC=%d\n", __func__, Status);
 		return CFE_SRL_I2C0_INIT_ERR;
+
 	}
+	CFE_ES_WriteToSysLog("%s: RS422 Initialized. FD=%d || DevName=%s\n", __func__, Handles[CFE_SRL_RS422_HANDLE_INDEXER]->FD, ((CFE_SRL_Global_Handle_t *)Handles[CFE_SRL_RS422_HANDLE_INDEXER])->DevName);
 
 return CFE_SUCCESS;
 }
