@@ -24,6 +24,10 @@ target_include_directories(uant_app PUBLIC
     fsw/inc                       # 앱 내부 헤더
     ${CMAKE_CURRENT_SOURCE_DIR}/device/inc/uant   # uant.h가 있는 경로
 )
+
+
+target_include_directories(uant_app PUBLIC ../../cfe/modules/srl/config)
+target_include_directories(uant_app PUBLIC /usr/include)
 # Include the public API from uant_lib to demonstrate how
 # to call library-provided functions
 #add_cfe_app_dependency(uant_app)
@@ -38,3 +42,6 @@ add_cfe_tables(uant_app fsw/tables/uant_app_tbl.c)
 if (ENABLE_UNIT_TESTS)
   add_subdirectory(unit-test)
 endif (ENABLE_UNIT_TESTS)
+
+
+

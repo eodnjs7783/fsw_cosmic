@@ -10,7 +10,7 @@
 CFE_SRL_IO_Handle_t *Handles[CFE_SRL_GNRL_DEVICE_NUM];
 /**************************************************
  * Index of Each device
- * 0 : SOCAT Handle
+ * 0 : I2C0 Handle
  **************************************************/
 
 /************************************************************************
@@ -29,13 +29,13 @@ int32 CFE_SRL_EarlyInit(void) {
 	 * Serial Comm. Init
  	 * Only `ready == true` interface is initialized
 	 **************************************************/
-	/* socat Init */
-	Status = CFE_SRL_HandleInit(&Handles[CFE_SRL_SOCAT_HANDLE_INDEXER], "socat", "/dev/pts/4", SRL_DEVTYPE_UART, CFE_SRL_SOCAT_HANDLE_INDEXER, 115200, 0);
-	Handles[CFE_SRL_SOCAT_HANDLE_INDEXER]->Func.TxFunc = CFE_SRL_WriteGenericUART;
-	Handles[CFE_SRL_SOCAT_HANDLE_INDEXER]->Func.RxFunc = CFE_SRL_ReadGenericUART;
+	/* I2C0 Init */
+	Status = CFE_SRL_HandleInit(&Handles[CFE_SRL_I2C0_HANDLE_INDEXER], "I2C0", "/dev/i2c-0", SRL_DEVTYPE_I2C, CFE_SRL_I2C0_HANDLE_INDEXER, 0);
+	Handles[CFE_SRL_I2C0_HANDLE_INDEXER]->Func.TxFunc = CFE_SRL_WriteGenericI2C;
+	Handles[CFE_SRL_I2C0_HANDLE_INDEXER]->Func.RxFunc = CFE_SRL_ReadGenericI2C;
 	if (Status != CFE_SUCCESS) {
-		CFE_ES_WriteToSysLog("%s: socat Initialization failed! RC=%d\n", __func__, Status);
-		return CFE_SRL_SOCAT_INIT_ERR;
+		CFE_ES_WriteToSysLog("%s: I2C0 Initialization failed! RC=%d\n", __func__, Status);
+		return CFE_SRL_I2C0_INIT_ERR;
 	}
 
 return CFE_SUCCESS;

@@ -126,6 +126,7 @@ install:
 	$(MAKE) --no-print-directory -C "$(O)" DESTDIR="$(DESTDIR)" mission-install
 
 prep $(O)/.prep:
+
 	mkdir -p "$(O)"
 	(cd "$(O)" && cmake $(PREP_OPTS) "$(CURDIR)/cfe")
 	echo "$(PREP_OPTS)" > "$(O)/.prep"
