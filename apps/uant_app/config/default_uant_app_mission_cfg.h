@@ -32,6 +32,8 @@
 #define UANT_APP_MISSION_CFG_H
 #define MAX_TM_DATASIZE     170
 
+#define UANT_APP_I2C_ADDR   0x31
+
 #include "uant_app_interface_cfg.h"
 
 #endif

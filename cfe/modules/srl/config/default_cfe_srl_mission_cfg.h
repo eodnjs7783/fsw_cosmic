@@ -5,25 +5,11 @@
 #include "cfe_srl_interface_cfg.h"
 
 typedef enum {
-<<<<<<< HEAD
 	CFE_SRL_I2C0_HANDLE_INDEXER,
 } CFE_SRL_Handle_Indexer_t;
 
 /* \# of General serial device */
 #define CFE_SRL_GNRL_DEVICE_NUM		(CFE_SRL_I2C0_HANDLE_INDEXER + 1)
-=======
-	CFE_SRL_RS422_HANDLE_INDEXER,
-} CFE_SRL_Handle_Indexer_t;
 
-/* \# of General serial device */
-#define CFE_SRL_GNRL_DEVICE_NUM		(CFE_SRL_RS422_HANDLE_INDEXER + 1)
-
-/* \# of used gpio pin */
-#define CFE_SRL_TOT_GPIO_NUM		0
-
-typedef enum {
-	NOTHING
-} CFE_SRL_GPIO_Indexer_t;
->>>>>>> 9da93d5463f7574bd99ace62fa6f91688270af48
 
 #endif /* CFE_SRL_MISSION_CFG_H */
